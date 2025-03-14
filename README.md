@@ -14,7 +14,7 @@
 
 ## Trang web
 
-Truy cập trang web tại: [Bookshelf](https://yourbookshelf.vercel.app/)
+Truy cập trang web tại: [Bookshelf](https://your-bookshelf.vercel.app/)
 
 ## Tài khoản dùng thử
 

@@ -1,9 +1,13 @@
 import { Outlet } from "react-router-dom";
 
+import ProtectedRoute from "../../../components/ProtectedRoute";
+
 export default function BookshelfLayout() {
   return (
     <div>
-      <Outlet />
+      <ProtectedRoute>
+        <Outlet />
+      </ProtectedRoute>
     </div>
   );
 }

@@ -17,7 +17,7 @@ import BooksByGenre from "./pages/BooksByGenre";
 import BookshelfOverview from "./pages/BookshelfOverview";
 import BookShelfStatus from "./pages/BookShelfStatus";
 import Login from "./pages/Login";
-import ProtectedRoute from "./components/ProtectedRoute";
+import BookshelfLayout from "./features/bookshelf/components/BookshelfLayout";
 
 const queryClient = new QueryClient();
 
@@ -37,8 +37,10 @@ function App() {
             <Route path="genres/:genreSlug" element={<GenreDetail />} />
             <Route path="genres/books/:genreSlug" element={<BooksByGenre />} />
 
-            <Route path="bookshelf" element={<BookshelfOverview />} />
-            <Route path="bookshelf/:readStatus" element={<BookShelfStatus />} />
+            <Route path="bookshelf" element={<BookshelfLayout />}>
+              <Route index element={<BookshelfOverview />} />
+              <Route path=":readStatus" element={<BookShelfStatus />} />
+            </Route>
 
             <Route path="book/similar/:bookId" element={<SimilarBook />} />
             <Route path="book/:bookId" element={<BookDetail />} />

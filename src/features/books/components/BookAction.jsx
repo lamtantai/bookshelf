@@ -98,9 +98,11 @@ export default function BookAction({ book }) {
     return (
       <div className="flex w-full justify-between overflow-hidden rounded-md border border-gray-300 font-semibold">
         <button
-          disabled={isLoading || isBookInBookshelf || isBookshelfLoading}
+          disabled={
+            isLoading || isBookInBookshelf || isBookshelfLoading || !isSuccess
+          }
           onClick={() => handleAddOrUpdateBookToBookshelf(selectedStatus)}
-          className={`h-10 flex-1 text-center text-lg ${isBookInBookshelf ? "pointer-events-none" : "bg-gray-600 text-white"}`}
+          className={`h-10 flex-1 text-center text-lg ${isBookInBookshelf || isLoading ? "pointer-events-none" : "bg-gray-600 text-white"}`}
         >
           {isLoading ? <SpinnerMini /> : getStatusInVietnamese(selectedStatus)}
         </button>
@@ -114,8 +116,6 @@ export default function BookAction({ book }) {
       </div>
     );
   }
-  console.log(isLoading);
-  console.log(isSuccess);
 
   if (isBookshelfLoading) return;
 
