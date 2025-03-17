@@ -21,7 +21,7 @@ export async function getBookDetail(bookId) {
   return updatedBook;
 }
 
-export async function getBooks(query, searchType, page, orderByNewest) {
+export async function getBooks(query, searchType, page) {
   const startIndex = page ? (page - 1) * PAGE_SIZE : 0;
 
   let queryString = "";
@@ -40,10 +40,6 @@ export async function getBooks(query, searchType, page, orderByNewest) {
     startIndex: startIndex,
     key: API_KEY,
   });
-
-  if (orderByNewest) {
-    urlParams.append("orderBy", "newest");
-  }
 
   const res = await fetch(`${BASE_URL}?${urlParams.toString()}`);
 

@@ -11,7 +11,7 @@ export default function useAddBookToBookshelf() {
   } = useMutation({
     mutationFn: addBookToBookshelfAPI,
     onSuccess: () => {
-      queryClient.invalidateQueries(["bookshelf"]);
+      queryClient.invalidateQueries({ queryKey: ["bookshelf"] });
     },
   });
 

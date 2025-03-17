@@ -3,13 +3,9 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import createQueryBooksOptions from "../../../queryOptions/createQueryBooksOptions";
 import useCurrentPage from "../../../hooks/useCurrentPage";
+import useBookWithStatus from "./useBookWithStatus";
 
-export default function useBooks(
-  searchQuery,
-  searchType,
-  page,
-  orderByNewest = false,
-) {
+export default function useBooks(searchQuery, searchType, page) {
   const queryClient = useQueryClient();
   const currentPage = useCurrentPage();
 
@@ -24,20 +20,13 @@ export default function useBooks(
     isPending,
     isSuccess,
     error,
-  } = useQuery(
-    createQueryBooksOptions(searchQuery, searchType, pageToUse, orderByNewest),
-  );
+  } = useQuery(createQueryBooksOptions(searchQuery, searchType, pageToUse));
 
   useEffect(() => {
     async function prefetchAndCheck() {
       try {
         const { allBooks } = await queryClient.fetchQuery(
-          createQueryBooksOptions(
-            searchQuery,
-            searchType,
-            pageToUse + 1,
-            orderByNewest,
-          ),
+          createQueryBooksOptions(searchQuery, searchType, pageToUse + 1),
         );
         if (allBooks.length === 0) setHasNextPage(false);
       } catch (error) {
@@ -48,21 +37,15 @@ export default function useBooks(
     if (isSuccess) {
       prefetchAndCheck();
     }
-  }, [
-    queryClient,
-    searchQuery,
-    searchType,
-    pageToUse,
-    orderByNewest,
-    isSuccess,
-  ]);
+  }, [queryClient, searchQuery, searchType, pageToUse, isSuccess]);
+
+  const booksWithStatus = useBookWithStatus(allBooks);
 
   return {
-    allBooks,
+    allBooks: booksWithStatus,
     totalItems,
     isError,
     isLoading,
-    currentPage,
     isPending,
     isSuccess,
     error,

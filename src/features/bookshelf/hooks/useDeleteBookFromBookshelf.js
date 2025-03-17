@@ -11,7 +11,7 @@ export default function useDeleteBookFromBookshelf() {
   } = useMutation({
     mutationFn: deleteBookFromBookShelfAPI,
     onSuccess: () => {
-      queryClient.invalidateQueries(["bookshelf"]);
+      queryClient.invalidateQueries({ queryKey: ["bookshelf"] });
     },
   });
 

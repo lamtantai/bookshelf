@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import PageNotFound from "../pages/PageNotFound";
@@ -19,8 +18,8 @@ export default function BookDetail() {
 
   const { bookDetail, isLoading, isError } = useBookDetail(bookId);
 
-  const category = bookDetail?.categories && bookDetail.categories[0];
-  const author = bookDetail?.authors && bookDetail.authors[0];
+  const category = bookDetail?.categories?.[0] || "";
+  const author = bookDetail?.authors?.[0] || "";
 
   const { allBooks: allRelatedBooks, isLoading: relatedBooksLoading } =
     useBooks(category || "", "subject", 1);
@@ -28,20 +27,13 @@ export default function BookDetail() {
   const { allBooks: allBooksByAuthor, isLoading: booksByAuthorLoading } =
     useBooks(author || "", "author", 1);
 
-  const filteredRelatedBooks = useMemo(() => {
-    return allRelatedBooks?.filter((book) => book.bookId !== bookId);
-  }, [allRelatedBooks, bookId]);
-
-  const filteredBooksByAuthor = useMemo(() => {
-    return allBooksByAuthor?.filter((book) => book.bookId !== bookId);
-  }, [allBooksByAuthor, bookId]);
-
-  const isRelatedAndAuthorLoading = useMemo(() => {
-    return relatedBooksLoading || booksByAuthorLoading;
-  }, [relatedBooksLoading, booksByAuthorLoading]);
+  const filteredRelatedBooks =
+    allRelatedBooks?.filter((book) => book.bookId !== bookId) || [];
+  const filteredBooksByAuthor =
+    allBooksByAuthor?.filter((book) => book.bookId !== bookId) || [];
 
   if (isLoading) return <SpinnerLoading />;
-  if (isError) return <PageNotFound />;
+  if (isError || !bookDetail) return <PageNotFound />;
 
   return (
     <Container>
@@ -55,26 +47,28 @@ export default function BookDetail() {
           <BookInfo bookDetail={bookDetail} />
         </div>
 
-        {isRelatedAndAuthorLoading ? (
+        {relatedBooksLoading ? (
           <SpinnerMini />
         ) : (
-          <>
-            {filteredRelatedBooks?.length > 0 && (
-              <BooksCarouselSection
-                books={filteredRelatedBooks}
-                title={`Có thể bạn sẽ thích`}
-                href={`/book/similar/${bookDetail.bookId}`}
-              />
-            )}
+          filteredRelatedBooks.length > 0 && (
+            <BooksCarouselSection
+              books={filteredRelatedBooks}
+              title="Có thể bạn sẽ thích"
+              href={`/book/similar/${bookDetail.bookId}`}
+            />
+          )
+        )}
 
-            {filteredBooksByAuthor?.length > 0 && (
-              <BooksCarouselSection
-                books={filteredBooksByAuthor}
-                title={`Sách khác của ${bookDetail.authors[0]}`}
-                href={`/author/${bookDetail.authors[0]}`}
-              />
-            )}
-          </>
+        {booksByAuthorLoading ? (
+          <SpinnerMini />
+        ) : (
+          filteredBooksByAuthor.length > 0 && (
+            <BooksCarouselSection
+              books={filteredBooksByAuthor}
+              title={`Sách khác của ${bookDetail.authors[0]}`}
+              href={`/author/${bookDetail.authors[0]}`}
+            />
+          )
         )}
       </ContentBody>
     </Container>

@@ -7,8 +7,6 @@ export default function useUser() {
   const { data: user, isLoading } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
-    refetchOnWindowFocus: false,
-    staleTime: Infinity,
   });
 
   const isAuthenticated = useMemo(() => {

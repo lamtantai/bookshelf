@@ -22,8 +22,6 @@ export default function SimilarBook() {
     hasNextPage,
   } = useBooks(bookDetail?.categories[0], "subject");
 
-  console.log(isError, relatedBooksError);
-
   if (allRelatedBooks?.length === 0 || relatedBooksError)
     return <ContentHead title="Không có kết quả" />;
 

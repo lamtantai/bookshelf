@@ -25,7 +25,6 @@ export async function getUser() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (!user) return null;
 
   return user;

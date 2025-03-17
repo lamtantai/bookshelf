@@ -13,15 +13,12 @@ export default function Search() {
 
   const searchQuery = searchParams.get("query");
 
-  const { allBooks, isLoading, isSuccess, hasNextPage } = useBooks(
-    searchQuery,
-    "title",
-  );
+  const { allBooks, isLoading, hasNextPage } = useBooks(searchQuery, "title");
 
-  if (allBooks?.length === 0 && !isLoading)
+  if (isLoading) return <SpinnerLoading />;
+
+  if (!allBooks && !isLoading)
     return <ContentHead title={`Không có kết quả cho "${searchQuery}"`} />;
-
-  if (!isSuccess) return <SpinnerLoading />;
 
   return (
     <Container>

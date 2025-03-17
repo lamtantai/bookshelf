@@ -14,8 +14,6 @@ export default function useBookshelf() {
     queryKey: ["bookshelf"],
     queryFn: getBookshelf,
     enabled: isAuthenticated,
-    refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 15,
   });
 
   return { bookshelf, isLoading, isSuccess };

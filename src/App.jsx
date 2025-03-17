@@ -19,7 +19,16 @@ import BookShelfStatus from "./pages/BookShelfStatus";
 import Login from "./pages/Login";
 import BookshelfLayout from "./features/bookshelf/components/BookshelfLayout";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 15,
+      gcTime: 1000 * 60 * 10,
+    },
+  },
+});
 
 function App() {
   return (

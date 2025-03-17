@@ -14,10 +14,8 @@ export default function useLogout() {
   } = useMutation({
     mutationFn: logoutApi,
     onSuccess: () => {
-      queryClient.removeQueries({
-        queryKey: ["user"],
-        exact: true,
-      });
+      queryClient.removeQueries({ queryKey: ["user"] });
+      queryClient.removeQueries({ queryKey: ["bookshelf"] });
       navigate("/", { replace: true });
     },
   });

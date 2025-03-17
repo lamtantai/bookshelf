@@ -6,23 +6,15 @@ export default function createQueryBooksOptions(
   searchQuery,
   searchType,
   pageToUse,
-  orderByNewest,
 ) {
+  const trimmedQuery = searchQuery.trim();
+
   return queryOptions({
     queryKey: searchQuery
-      ? [
-          "books",
-          searchQuery,
-          searchType,
-          pageToUse,
-          orderByNewest ? "orderByNewest" : "orderByDefault",
-        ]
+      ? ["books", searchQuery, searchType, pageToUse]
       : ["books"],
-    queryFn: () => getBooks(searchQuery, searchType, pageToUse, orderByNewest),
-    enabled: !!searchQuery,
+    queryFn: () => getBooks(searchQuery, searchType, pageToUse),
+    enabled: !!trimmedQuery,
     retry: false,
-    staleTime: 1000 * 60 * 15,
-    gcTime: 1000 * 60 * 5,
-    refetchOnWindowFocus: false,
   });
 }

@@ -5,7 +5,7 @@ import createQueryBooksOptions from "../../../queryOptions/createQueryBooksOptio
 export default function useBooksByGenres(genres) {
   const genreQueries = useQueries({
     queries: genres.map((genre) =>
-      createQueryBooksOptions(genre, "subject", 1, false),
+      createQueryBooksOptions(genre, "subject", 1),
     ),
   });
 

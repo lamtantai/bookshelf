@@ -11,7 +11,7 @@ export default function useUpdateBookshelf() {
   } = useMutation({
     mutationFn: ({ book, bookId }) => updateBookshelfAPI({ book, bookId }),
     onSuccess: () => {
-      queryClient.invalidateQueries(["bookshelf"]);
+      queryClient.invalidateQueries({ queryKey: ["bookshelf"] });
     },
   });
 

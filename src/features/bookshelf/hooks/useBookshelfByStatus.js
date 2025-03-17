@@ -17,8 +17,6 @@ export default function useBookshelfByStatus(status) {
     queryKey: ["bookshelf", currentPage, status],
     queryFn: () => getBookshelfByStatus(currentPage, status),
     enabled: isAuthenticated,
-    refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 15,
   });
 
   const pageCount = Math.ceil(count / PAGE_SIZE);

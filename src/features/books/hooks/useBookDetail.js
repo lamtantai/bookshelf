@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { getBookDetail } from "../../../services/apiBooks";
+import useBookWithStatus from "./useBookWithStatus";
 
 export default function useBookDetail(bookId) {
   const {
@@ -12,12 +13,12 @@ export default function useBookDetail(bookId) {
     queryKey: ["bookDetail", bookId],
     queryFn: () => getBookDetail(bookId),
     retry: false,
-    refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 15,
   });
 
+  const bookWithStatus = useBookWithStatus(bookDetail);
+
   return {
-    bookDetail,
+    bookDetail: bookWithStatus,
     isError,
     isSuccess,
     isLoading,

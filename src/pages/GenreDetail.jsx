@@ -19,12 +19,7 @@ export default function GenreDetail() {
 
   const isValidGenre = checkValidGenre(genreSlug);
 
-  const { allBooks, isLoading, isError } = useBooks(
-    genreSlug,
-    "subject",
-    1,
-    false,
-  );
+  const { allBooks, isLoading, isError } = useBooks(genreSlug, "subject", 1);
 
   if (isLoading) {
     return <SpinnerLoading />;
